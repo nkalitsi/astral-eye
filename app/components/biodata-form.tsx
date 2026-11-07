@@ -5,10 +5,26 @@ import { useState } from "react";
 export default function BioDataForm(){
 
     const [name, setName] = useState("");
-    const handleSubmit = (e: any) => {
-    e.preventDefault();
-    setName(e.target);
+    const [response, setResponse] = useState("");
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const firstName = formData.get('firstName');
+
+        if (typeof firstName === 'string'){
+            setName(firstName);
+        }
+        const res = await fetch("/api/ping", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: firstName }),
+
+        })
+        const data = await res.json();
+        setResponse(data.message);
+
    }
+   
 
     return(<>
         <p>Biodata form</p>
@@ -16,6 +32,7 @@ export default function BioDataForm(){
             <input name="firstName" type="text" />
             <button type="submit">Submit</button>
         </form>
+        { response && <p>{response}</p>}
         
 
     </>)
