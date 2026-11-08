@@ -1,6 +1,12 @@
 'use client'
 
 import { useState } from "react";
+import { generateChart } from "../actions";
+import { CityField } from "./city-field";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 export default function BioDataForm(){
 
@@ -25,14 +31,39 @@ export default function BioDataForm(){
 
    }
    
+   
 
     return(<>
         <p>Biodata form</p>
-        <form onSubmit={handleSubmit}>
-            <input name="firstName" type="text" />
-            <button type="submit">Submit</button>
-        </form>
-        { response && <p>{response}</p>}
+        <Card>
+            <CardHeader>Your Info
+                <CardDescription>Enter your info to reveal your chart</CardDescription>
+            </CardHeader>
+    
+            <CardContent>
+                <form action={generateChart}>
+                    <Field>
+                        <FieldLabel>Name</FieldLabel>
+                        <Input name="firstName" type="text" required={true}/>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Birthday</FieldLabel>
+                        <Input name="birthDay" type="date" required={true} />
+                    </Field>
+                    <Field>
+                        <FieldLabel>Birth time</FieldLabel>
+                        <Input name="birthTime" type="time" required={false} />
+                    </Field>
+                    <Field>
+                        <FieldLabel>Birth City</FieldLabel>
+                        <CityField></CityField>
+                    </Field>
+
+                    <Button type="submit">Submit</Button>
+                </form>
+            </CardContent>
+        </Card>
+        
         
 
     </>)
